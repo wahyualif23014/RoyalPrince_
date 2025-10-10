@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:motion/motion.dart'; // <<< 1. Tambahkan import untuk package motion
+import 'package:motion/motion.dart';
 
 class CustomHeaderWidget extends StatelessWidget {
   final String title;
@@ -19,29 +19,41 @@ class CustomHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Motion.elevated(
-      elevation: 100, 
-      borderRadius: BorderRadius.circular(15.0),
+      elevation: 100,
+      borderRadius: BorderRadius.circular(20.0), // Sudut lebih tumpul agar gambar juga rounded
       child: Card(
-        color: Colors.black54,
-        elevation: 50, // Elevation ini tetap ada untuk tampilan awal
-        shadowColor: Colors.black.withOpacity(0.20),
+        elevation: 50,
+        shadowColor: Colors.black.withOpacity(0.3), // Shadow lebih gelap agar kontras
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(20.0), // Harus sama dengan Motion.elevated
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
           width: double.infinity,
+          decoration: BoxDecoration( // <<< TAMBAHKAN DECORATION DI SINI
+            borderRadius: BorderRadius.circular(20.0), // Sama dengan shape Card
+            image: const DecorationImage(
+              image: NetworkImage(
+                'https://images.unsplash.com/photo-1689714334494-ee2fad01f52f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              ),
+              fit: BoxFit.cover, // Gambar akan mengisi seluruh area
+              alignment: Alignment.center,
+              colorFilter: ColorFilter.mode(
+                Colors.black54, 
+                BlendMode.darken,
+              ),
+            ),
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // <<< ANIMASI PADA TITLE (TETAP SAMA)
               Text(
                 title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.white, // Pastikan teks putih agar kontras
                 ),
               )
               .animate()
@@ -49,22 +61,21 @@ class CustomHeaderWidget extends StatelessWidget {
               .slideY(begin: 0.5, duration: 900.ms, curve: Curves.easeOut)
               .shimmer(
                 colors: [
-                  const Color(0xFFFFFF),
-                  const Color(0xFFE0E0E0),
-                  const Color(0xFFFFFF),
+                  Colors.white.withOpacity(0.8), // Shimmer putih lebih jelas di latar gelap
+                  Colors.white.withOpacity(0.5),
+                  Colors.white.withOpacity(0.8),
                 ],
                 duration: 1800.ms,
               ),
 
               const SizedBox(height: 8),
 
-              // <<< ANIMASI PADA SUBTITLE (TETAP SAMA)
               Text(
                 subtitle,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 15,
-                  color: Colors.white24,
+                  color: Colors.white70, // Subtitle agak abu-abu agar kontras
                 ),
               )
               .animate(delay: 300.ms)
@@ -72,17 +83,17 @@ class CustomHeaderWidget extends StatelessWidget {
               .slideY(begin: 0.5, duration: 900.ms, curve: Curves.easeOut)
               .shimmer(
                 colors: [
-                  const Color(0xFFFFFF),
-                  const Color(0xFFE0E0E0),
-                  const Color(0xFFFFFF),
+                  Colors.white.withOpacity(0.8),
+                  Colors.white.withOpacity(0.5),
+                  Colors.white.withOpacity(0.8),
                 ],
                 duration: 1800.ms,
               ),
               const SizedBox(height: 24),
               ElevatedButton.icon(
-                onPressed: onSeeMorePressed, // Panggil callback saat ditekan
+                onPressed: onSeeMorePressed,
                 icon: const Icon(Icons.person_search_outlined, size: 18),
-                label: const Text('Lihat Profil Saya'),
+                label: const Text('See my profile'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
                   foregroundColor: Colors.white,
@@ -93,7 +104,7 @@ class CustomHeaderWidget extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ).animate().fade().slideY(begin: 0.8),
         ),
       ),
     );

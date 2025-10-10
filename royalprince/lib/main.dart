@@ -1,10 +1,14 @@
 // lib/main.dart
 
 import 'package:flutter/material.dart';
+import 'package:motion/motion.dart';
 import 'home/pages/dasboard.dart'; // <-- 1. Impor file dashboard.dart
 
-void main() {
-  runApp(const MyApp()); // <-- 2. Jalankan widget utama aplikasi
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Motion.instance.initialize(); // <-- Tambahkan ini
+  Motion.instance.setUpdateInterval(60.fps); // <-- Tambahkan ini
+  runApp(const MyApp());
 }
 
 // Widget utama ini berfungsi sebagai "akar" dari aplikasi Anda

@@ -1,15 +1,24 @@
 // lib/pages/dashboard.dart
 
 import 'package:flutter/material.dart';
-// Pastikan path import ini benar sesuai struktur folder Anda
-import 'package:royalprince/home/models/portfolio_model.dart'; 
-import 'package:royalprince/home/widgets/portfolio_swiper.dart';
+import 'package:flutter_animate/flutter_animate.dart'; // <-- Pastikan ini diimpor untuk animasi
 import '../models/image_model.dart';
 import '../widgets/fan_carousel_widget.dart';
-import '../widgets/custom_header_widget.dart'; 
+import '../widgets/custom_header_widget.dart';
+import '../widgets/ProfileDetailsCard.dart'; 
+import 'package:royalprince/home/models/portfolio_model.dart'; // Sesuaikan path jika perlu
+import 'package:royalprince/home/widgets/portfolio_swiper.dart'; // Sesuaikan path jika perlu
 
-class Dashboard extends StatelessWidget {
+// 1. UBAH MENJADI STATEFULWIDGET
+class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
+
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  bool _isProfileVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -17,60 +26,68 @@ class Dashboard extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Royalprince', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black, // Agar icon dan title terlihat jelas
+        foregroundColor: Colors.black,
         elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            onPressed: () {
-              // Fungsi untuk notifikasi
-            },
+            onPressed: () {},
           ),
           IconButton(
             icon: const Icon(Icons.menu),
-            onPressed: () {
-              // Fungsi untuk menu
-            },
+            onPressed: () {},
           ),
         ],
       ),
-      body: SingleChildScrollView( // Widget ini sudah benar, membuat seluruh konten bisa di-scroll
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // --- Bagian Header ---
-              const CustomHeaderWidget(
-                title: 'Welcome My CV!',
-                subtitle: 'This is a brief introduction.',
+              CustomHeaderWidget(
+                title: 'Welcome To My CV!',
+                subtitle: 'This is a brief introduction about me.',
+                // 3. HUBUNGKAN TOMBOL DENGAN STATE
+                onSeeMorePressed: () {
+                  setState(() {
+                    _isProfileVisible = !_isProfileVisible; // Toggle visibilitas
+                  });
+                },
               ),
-              
-              const SizedBox(height: 24),
+
+              // 4. MUNCULKAN KARTU PROFIL DENGAN ANIMASI
+              if (_isProfileVisible)
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0), // Jarak dari header
+                  child: const ProfileDetailsCard(),
+                )
+                .animate()
+                .fadeIn(duration: 500.ms)
+                .slideY(begin: -0.3, end: 0, duration: 600.ms, curve: Curves.easeOutCubic)
+                .slideX(begin: -0.3, end: 0, duration: 600.ms, curve: Curves.easeOutCubic),
+
               const SizedBox(height: 24),
 
               // --- Widget FanCarousel ---
               FanCarouselWidget(images: sampleImages),
 
-              const SizedBox(height: 32), // Beri jarak lebih agar tidak terlalu rapat
+              const SizedBox(height: 32),
 
               // --- Bagian "Other Sections" ---
               const Text(
-                'Our Portfolio', // Judul lebih deskriptif
+                'Our Portfolio',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
-
-              // --- OPTIMALISASI DI SINI ---
-              // Beri batasan tinggi yang pasti untuk PortfolioSwiper.
-              // Column memerlukan ukuran pasti dari children-nya.
-              // Dengan SizedBox, Anda memberi tahu Column "sisihkan 250 pixel untuk widget ini".
+              
               SizedBox(
-                height: 250, // Atur tinggi sesuai desain Anda
+                height: 250,
                 child: PortfolioSwiper(portfolioItems: dummyPortfolioItems),
               ),
               
-              const SizedBox(height: 24), // Jarak di akhir konten
+              const SizedBox(height: 24),
             ],
           ),
         ),

@@ -7,24 +7,24 @@ import 'package:motion/motion.dart'; // <<< 1. Tambahkan import untuk package mo
 class CustomHeaderWidget extends StatelessWidget {
   final String title;
   final String subtitle;
+  final VoidCallback onSeeMorePressed;
 
   const CustomHeaderWidget({
     Key? key,
     required this.title,
     required this.subtitle,
+    required this.onSeeMorePressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // <<< 2. Bungkus Card dengan Motion.elevated
     return Motion.elevated(
-      elevation: 100, // Atur seberapa besar efek 3D yang diinginkan
+      elevation: 100, 
       borderRadius: BorderRadius.circular(15.0),
       child: Card(
-        // Properti Card tetap sama, tanpa animasi
-        color: Colors.white,
+        color: Colors.black54,
         elevation: 50, // Elevation ini tetap ada untuk tampilan awal
-        shadowColor: Colors.black.withOpacity(0.10),
+        shadowColor: Colors.black.withOpacity(0.20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -41,7 +41,7 @@ class CustomHeaderWidget extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: Colors.white,
                 ),
               )
               .animate()
@@ -64,7 +64,7 @@ class CustomHeaderWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 15,
-                  color: Colors.grey,
+                  color: Colors.white24,
                 ),
               )
               .animate(delay: 300.ms)
@@ -77,6 +77,20 @@ class CustomHeaderWidget extends StatelessWidget {
                   const Color(0xFFFFFF),
                 ],
                 duration: 1800.ms,
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                onPressed: onSeeMorePressed, // Panggil callback saat ditekan
+                icon: const Icon(Icons.person_search_outlined, size: 18),
+                label: const Text('Lihat Profil Saya'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                ),
               ),
             ],
           ),

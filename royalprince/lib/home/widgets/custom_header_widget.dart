@@ -23,9 +23,9 @@ class CustomHeaderWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(20.0), // Sudut lebih tumpul agar gambar juga rounded
       child: Card(
         elevation: 50,
-        shadowColor: Colors.black.withOpacity(0.3), // Shadow lebih gelap agar kontras
+        shadowColor: Colors.black.withOpacity(0.10),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0), // Harus sama dengan Motion.elevated
+          borderRadius: BorderRadius.circular(20.0),
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
@@ -39,7 +39,7 @@ class CustomHeaderWidget extends StatelessWidget {
               fit: BoxFit.cover, // Gambar akan mengisi seluruh area
               alignment: Alignment.center,
               colorFilter: ColorFilter.mode(
-                Colors.black54, 
+                Colors.black38, 
                 BlendMode.darken,
               ),
             ),

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false, 
       title: 'Aplikasi Royalprince',
-      home: Dashboard(), // <-- 3. Arahkan ke layar Dashboard
+      home: DashboardPage(), // <-- 3. Arahkan ke layar Dashboard
     );
   }
 }

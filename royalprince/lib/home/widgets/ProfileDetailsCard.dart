@@ -22,12 +22,12 @@ class ProfileDetailsCard extends StatelessWidget {
             // --- Bagian Header Profil ---
             const CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=32'), // Ganti dengan URL foto Anda
+              backgroundImage: NetworkImage('https://images.unsplash.com/photo-1757495152235-e6a79bcf7ea2?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0fHx8ZW58MHx8fHx8&auto=format&fit=crop&q=60&w=600'), // Ganti dengan URL foto Anda
               backgroundColor: Colors.transparent,
             ),
             const SizedBox(height: 16),
             const Text(
-              'Wahyu alif ajir nurdianto', // Ganti dengan nama Anda
+              'Wahyu alif ajir nurdianto',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

@@ -61,7 +61,6 @@ class CustomBottomNavBar extends StatelessWidget {
       onPressed: () => onTap(index),
       icon: Icon(
         icon,
-        // Ubah warna ikon berdasarkan apakah item ini aktif atau tidak
         color: currentIndex == index ? Colors.orange : Colors.grey.shade400,
       ),
     );

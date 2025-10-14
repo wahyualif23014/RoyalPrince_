@@ -5,7 +5,6 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Halaman About tidak memerlukan AppBar sendiri karena sudah diatur oleh Dashboard
     return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

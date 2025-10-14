@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../models/image_model.dart'; // Sesuaikan path jika perlu
-import '../widgets/fan_carousel_widget.dart'; // Sesuaikan path jika perlu
-import '../widgets/custom_header_widget.dart'; // Sesuaikan path jika perlu
-import '../widgets/ProfileDetailsCard.dart'; // Sesuaikan path jika perlu
-import '../models/portfolio_model.dart'; // Sesuaikan path jika perlu
-import '../widgets/portfolio_swiper.dart'; // Sesuaikan path jika perlu
+import '../models/image_model.dart';
+import '../widgets/fan_carousel_widget.dart'; 
+import '../widgets/custom_header_widget.dart'; 
+import '../widgets/ProfileDetailsCard.dart'; 
+import '../models/portfolio_model.dart'; 
+import '../widgets/portfolio_swiper.dart'; 
 
 class HomePageContent extends StatefulWidget {
   const HomePageContent({super.key});
@@ -21,7 +21,6 @@ class _HomePageContentState extends State<HomePageContent> {
 
   @override
   Widget build(BuildContext context) {
-    // Gunakan ListView, bukan SingleChildScrollView, untuk performa lebih baik
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       children: [
@@ -35,7 +34,6 @@ class _HomePageContentState extends State<HomePageContent> {
           },
         ),
 
-        // Gunakan AnimatedSize dan AnimatedOpacity untuk animasi yang lebih halus
         AnimatedSize(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
@@ -47,7 +45,7 @@ class _HomePageContentState extends State<HomePageContent> {
                     padding: EdgeInsets.only(top: 30.0),
                     child: ProfileDetailsCard(),
                   )
-                : const SizedBox(height: 0), // Gunakan SizedBox.shrink() agar tidak memakan ruang
+                : const SizedBox(height: 0), 
           ),
         ),
 

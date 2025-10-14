@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:motion/motion.dart';
-import 'home/pages/dasboard.dart'; // <-- 1. Impor file dashboard.dart
+import 'home/pages/dasboard.dart'; 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Motion.instance.initialize(); // <-- Tambahkan ini
-  Motion.instance.setUpdateInterval(60.fps); // <-- Tambahkan ini
+  await Motion.instance.initialize(); 
+  Motion.instance.setUpdateInterval(60.fps);
   runApp(const MyApp());
 }
 

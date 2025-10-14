@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-// Class ini mendefinisikan warna-warna kustom Anda.
 @immutable
 class CustomColorsTheme extends ThemeExtension<CustomColorsTheme> {
   const CustomColorsTheme({
@@ -38,7 +37,6 @@ class CustomColorsTheme extends ThemeExtension<CustomColorsTheme> {
     );
   }
 
-  // lerp (linear interpolation) penting agar tema bisa bertransisi dengan mulus.
   @override
   CustomColorsTheme lerp(ThemeExtension<CustomColorsTheme>? other, double t) {
     if (other is! CustomColorsTheme) {

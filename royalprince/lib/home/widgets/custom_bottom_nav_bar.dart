@@ -43,10 +43,10 @@ class CustomBottomNavBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildNavItem(Icons.home, 0),
-                _buildNavItem(Icons.restaurant_menu, 1),
+                _buildNavItem(Icons.work_outline, 1),
                 SizedBox(width: size.width * .20),
-                _buildNavItem(Icons.bookmark, 2),
-                _buildNavItem(Icons.notifications, 3),
+                _buildNavItem(Icons.contact_mail, 2),
+                _buildNavItem(Icons.settings, 3),
               ],
             ),
           )

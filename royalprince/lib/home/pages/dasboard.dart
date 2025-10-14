@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:royalprince/home/pages/about.dart';
 import 'package:royalprince/home/pages/project.dart';
-import '../widgets/custom_bottom_nav_bar.dart'; // Sesuaikan path jika perlu
+import '../widgets/custom_bottom_nav_bar.dart'; 
 import 'home_page_content.dart';
 import 'settings_page.dart';
 import 'contact_page.dart';
@@ -16,14 +16,12 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   int _currentIndex = 0;
 
-  // 1. Sesuaikan daftar halaman sesuai jumlah tombol navigasi (5 tombol)
   final List<Widget> _pages = [
-    const HomePageContent(), // Indeks 0
+    const HomePageContent(), 
     const ProjectsPage(), // Indeks 1
     const ContactPage(), // Indeks 3
     const SettingsPage(),
-    const AboutPage(), // Indeks 2 (Sekarang halaman biasa)
-    // Indeks 4
+    const AboutPage(),
   ];
 
   // Sesuaikan juga judulnya
@@ -63,7 +61,6 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
       body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: CustomBottomNavBar(
-        // 3. Kirimkan _currentIndex secara langsung, tanpa pemetaan.
         currentIndex: _currentIndex,
         onTap: _onTap,
       ),

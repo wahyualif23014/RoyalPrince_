@@ -18,7 +18,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   // <-- PERUBAHAN 3: Fungsi _onIntroEnd dimodifikasi
   void _onIntroEnd(BuildContext context) async {
-    // Simpan penanda bahwa onboarding sudah selesai
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('onboarding_complete', true);
 

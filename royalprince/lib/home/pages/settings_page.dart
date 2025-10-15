@@ -1,6 +1,7 @@
 // lib/pages/settings_page.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -91,7 +92,8 @@ class _SettingsPageState extends State<SettingsPage> {
               leading: const Icon(Icons.logout, color: Colors.redAccent),
               title: const Text('Keluar'),
               onTap: () {
-                // TODO: Tambahkan logika untuk logout
+                // 2. Panggil fungsi ini untuk keluar dari aplikasi
+                SystemNavigator.pop();
               },
             ),
           ],

@@ -23,7 +23,7 @@ class CustomHeaderWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(20.0), 
       child: Card(
         elevation: 50,
-        shadowColor: Colors.black.withOpacity(0.10),
+        shadowColor: Colors.black.withOpacity(0.40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),

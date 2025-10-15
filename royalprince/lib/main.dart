@@ -2,24 +2,37 @@
 
 import 'package:flutter/material.dart';
 import 'package:motion/motion.dart';
-import 'home/pages/dasboard.dart'; 
+import 'package:shared_preferences/shared_preferences.dart'; // <-- 1. IMPORT
+import './home/pages/dasboard.dart'; // <-- 2. IMPORT DASHBOARD
+import './home/pages/onboarding_screen.dart'; // <-- 3. IMPORT ONBOARDING
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Motion.instance.initialize(); 
+
+  // Inisialisasi package motion Anda
+  await Motion.instance.initialize();
   Motion.instance.setUpdateInterval(60.fps);
-  runApp(const MyApp());
+
+  // 4. Periksa status onboarding
+  final prefs = await SharedPreferences.getInstance();
+  // Ambil nilai boolean. Jika tidak ada, anggap false (belum selesai).
+  final bool showHome = prefs.getBool('onboarding_complete') ?? false;
+
+  runApp(MyApp(showHome: showHome)); // <-- 5. Kirim status ke MyApp
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  // 6. Terima status dari main()
+  final bool showHome;
+  const MyApp({super.key, required this.showHome});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, 
+      debugShowCheckedModeBanner: false,
       title: 'Aplikasi Royalprince',
-      home: DashboardPage(), // <-- 3. Arahkan ke layar Dashboard
+      // 7. Tentukan halaman awal secara dinamis
+      home: showHome ? const DashboardPage() : const OnBoardingPage(),
     );
   }
 }

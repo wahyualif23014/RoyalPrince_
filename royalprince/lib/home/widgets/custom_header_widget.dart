@@ -20,7 +20,7 @@ class CustomHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Motion.elevated(
       elevation: 100,
-      borderRadius: BorderRadius.circular(20.0), // Sudut lebih tumpul agar gambar juga rounded
+      borderRadius: BorderRadius.circular(20.0), 
       child: Card(
         elevation: 50,
         shadowColor: Colors.black.withOpacity(0.10),
@@ -30,13 +30,13 @@ class CustomHeaderWidget extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
           width: double.infinity,
-          decoration: BoxDecoration( // <<< TAMBAHKAN DECORATION DI SINI
-            borderRadius: BorderRadius.circular(20.0), // Sama dengan shape Card
+          decoration: BoxDecoration( 
+            borderRadius: BorderRadius.circular(20.0), 
             image: const DecorationImage(
               image: NetworkImage(
                 'https://images.unsplash.com/photo-1689714334494-ee2fad01f52f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
               ),
-              fit: BoxFit.cover, // Gambar akan mengisi seluruh area
+              fit: BoxFit.cover, 
               alignment: Alignment.center,
               colorFilter: ColorFilter.mode(
                 Colors.black38, 
@@ -61,7 +61,7 @@ class CustomHeaderWidget extends StatelessWidget {
               .slideY(begin: 0.5, duration: 900.ms, curve: Curves.easeOut)
               .shimmer(
                 colors: [
-                  Colors.white.withOpacity(0.8), // Shimmer putih lebih jelas di latar gelap
+                  Colors.white.withOpacity(0.8), 
                   Colors.white.withOpacity(0.5),
                   Colors.white.withOpacity(0.8),
                 ],

@@ -56,7 +56,7 @@ class _DashboardPageState extends State<DashboardPage> {
             icon: const Icon(Icons.notifications_outlined),
             onPressed: () {},
           ),
-          IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
+          // IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
         ],
       ),
       body: IndexedStack(index: _currentIndex, children: _pages),

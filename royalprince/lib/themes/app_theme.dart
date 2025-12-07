@@ -1,7 +1,7 @@
 // lib/theme/app_theme.dart
 
 import 'package:flutter/material.dart';
-import '../colors/custom_colors_theme.dart'; // Impor file custom colors Anda
+import '../colors/custom_colors_theme.dart'; 
 
 class AppTheme {
   // Tema untuk mode terang

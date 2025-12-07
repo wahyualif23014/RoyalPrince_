@@ -35,7 +35,7 @@ class ProfileDetailsCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'Flutter Developer & UI/UX Enthusiast', // Ganti dengan profesi Anda
+              'Flutter Developer & UI/UX Enthusiast', 
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.blueAccent[700],

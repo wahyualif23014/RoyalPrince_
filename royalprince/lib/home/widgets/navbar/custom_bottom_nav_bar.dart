@@ -56,12 +56,12 @@ class CustomBottomNavBar extends StatelessWidget {
   }
 
   // Helper widget untuk membuat setiap item navigasi
-  Widget _buildNavItem(IconData icon, int index) {
+  Widget _buildNavItem(IconData icon, int index, {Color? color}) {
     return IconButton(
       onPressed: () => onTap(index),
       icon: Icon(
         icon,
-        color: currentIndex == index ? Colors.orange : Colors.grey.shade400,
+        color: currentIndex == index ? Colors.orange : (Colors.white),
       ),
     );
   }

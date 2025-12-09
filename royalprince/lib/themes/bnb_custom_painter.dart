@@ -6,7 +6,7 @@ class BNBCustomePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.white
+      ..color = Colors.black38
       ..style = PaintingStyle.fill;
     Path path = Path()..moveTo(0, 20);
     path.quadraticBezierTo(size.width * .20, 0, size.width * .35, 0);

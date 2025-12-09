@@ -1,7 +1,7 @@
 // lib/widgets/featured_projects_section.dart
 
 import 'package:flutter/material.dart';
-import './expanding_cards_widget.dart'; // Impor widget ExpandingCards
+import 'expanding_cards_widget.dart'; // Impor widget ExpandingCards
 
 class FeaturedProjectsSection extends StatelessWidget {
   const FeaturedProjectsSection({super.key});

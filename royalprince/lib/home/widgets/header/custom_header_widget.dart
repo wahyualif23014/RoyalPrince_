@@ -75,7 +75,7 @@ class CustomHeaderWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 15,
-                  color: Colors.white70, // Subtitle agak abu-abu agar kontras
+                  color: Colors.white70, 
                 ),
               )
               .animate(delay: 300.ms)

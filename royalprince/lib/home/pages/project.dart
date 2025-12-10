@@ -1,7 +1,5 @@
 // lib/home/pages/project.dart
 import 'package:flutter/material.dart';
-import 'package:royalprince/home/widgets/project/featured_projects_section.dart';
-import 'package:royalprince/home/widgets/project/featured_section.dart';
 import 'package:royalprince/home/widgets/project/medicine_classification_card.dart';
 import 'package:royalprince/home/widgets/project/medicine_search_section.dart';
 import 'package:royalprince/home/widgets/project/medicine_tips_section.dart';
@@ -17,22 +15,22 @@ class ProjectsPage extends StatelessWidget {
           delegate: SliverChildListDelegate(
             [
               // Project Section 1
-              Container(
-                margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
-                // child: const FeaturedProjectsSection(),
-              ),
+              // Container(
+              //   margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
+              //   // child: const FeaturedProjectsSection(),
+              // ),
               
-              const SizedBox(height: 32),
+              // const SizedBox(height: 32),
               
-              // Project Section 2
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                // child: const FeaturedSection(),
-              ),
+              // // Project Section 2
+              // Container(
+              //   margin: const EdgeInsets.symmetric(horizontal: 16),
+              //   // child: const FeaturedSection(),
+              // ),
               
-              const SizedBox(height: 32),
+              // const SizedBox(height: 32),
               
-              // Medicine Classification Section
+              // // Medicine Classification Section
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: const MedicineClassificationCard(),
@@ -41,18 +39,18 @@ class ProjectsPage extends StatelessWidget {
               const SizedBox(height: 32),
               
               // Medicine Search Section
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                child: const MedicineSearchSection(),
-              ),
+              // Container(
+              //   margin: const EdgeInsets.symmetric(horizontal: 16),
+              //   child: const MedicineSearchSection(),
+              // ),
               
               const SizedBox(height: 32),
               
               // Usage Tips Section
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                child: const MedicineTipsSection(),
-              ),
+              // Container(
+              //   margin: const EdgeInsets.symmetric(horizontal: 16),
+              //   child: const MedicineTipsSection(),
+              // ),
               
               const SizedBox(height: 80), // Extra padding for bottom navigation
             ],

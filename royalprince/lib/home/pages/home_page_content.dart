@@ -4,7 +4,6 @@ import 'package:royalprince/home/widgets/home/timeline/ProfileDetailsCard.dart';
 import '../models/image_model.dart';
 import '../widgets/home/swipper/fan_carousel_widget.dart';
 import '../widgets/header/custom_header_widget.dart';
-import '../widgets/home/timeline/ProfileDetailsCard.dart';
 import '../models/portfolio_model.dart';
 import '../widgets/home/swipper/portfolio_swiper.dart';
 import '../models/experience_model.dart';

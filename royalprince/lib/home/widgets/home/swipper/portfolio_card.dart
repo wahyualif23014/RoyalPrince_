@@ -1,7 +1,7 @@
 // lib/widgets/portfolio_card.dart
 
 import 'package:flutter/material.dart';
-import '../models/portfolio_model.dart';
+import '../../../models/portfolio_model.dart';
 
 class PortfolioCard extends StatelessWidget {
   final PortfolioItems item;

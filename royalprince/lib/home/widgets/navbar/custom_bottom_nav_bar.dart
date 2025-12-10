@@ -18,9 +18,9 @@ class CustomBottomNavBar extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     
     return Container(
-      width: size.width,
-      height: 80,
-      color: Colors.transparent, // Latar belakang transparan agar cocok dengan Scaffold
+      // width: size.width,
+      // height: 80,
+      // color: Colors.transparent, 
       child: Stack(
         children: [
           CustomPaint(
@@ -33,7 +33,7 @@ class CustomBottomNavBar extends StatelessWidget {
               onPressed: () => onTap(4), // Indeks untuk keranjang
               backgroundColor: Colors.orange,
               elevation: 0.1,
-              child: const Icon(Icons.account_circle_rounded),
+              child: const Icon(Icons.account_circle_rounded, size: 30, color: Colors.black),
             ),
           ),
           SizedBox(

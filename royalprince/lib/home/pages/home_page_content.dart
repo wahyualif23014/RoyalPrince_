@@ -2,14 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
 import '../models/image_model.dart';
-import '../widgets/fan_carousel_widget.dart';
+import '../widgets/home/swipper/fan_carousel_widget.dart';
 import '../widgets/header/custom_header_widget.dart';
-import '../widgets/ProfileDetailsCard.dart';
+import '../widgets/home/timeline/ProfileDetailsCard.dart';
 import '../models/portfolio_model.dart';
-import '../widgets/portfolio_swiper.dart';
+import '../widgets/home/swipper/portfolio_swiper.dart';
 import '../models/experience_model.dart';
-import '../widgets/professional_timeline.dart';
+import '../widgets/home/timeline/professional_timeline.dart';
 
 class HomePageContent extends StatefulWidget {
   const HomePageContent({super.key});
@@ -21,13 +22,13 @@ class HomePageContent extends StatefulWidget {
 class _HomePageContentState extends State<HomePageContent> {
   bool _isProfileVisible = false;
 
-  // --- CONSTANTS UNTUK JARAK (Agar Konsisten) ---
-  static const double _sectionSpacing = 50.0; // Jarak antar Section Besar
-  static const double _titleToContentSpacing = 20.0; // Jarak Judul ke Isi
+  // --- CONSTANTS UNTUK JARAK ---
+  static const double _sectionSpacing = 50.0;
+  static const double _titleToContentSpacing = 20.0;
 
-  // --- HELPER WIDGETS ---
-
-  // 1. Widget Judul Section
+  // ============================================================
+  //                       SECTION TITLE
+  // ============================================================
   Widget _buildSectionTitle(String title) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,117 +36,162 @@ class _HomePageContentState extends State<HomePageContent> {
         Text(
           title,
           style: const TextStyle(
-            fontSize: 24, // Sedikit diperbesar agar lebih tegas
+            fontSize: 24,
             fontWeight: FontWeight.bold,
             letterSpacing: 0.5,
-            color: Colors.black87,
+            color: Colors.white, // putih agar terbaca di background gelap
           ),
         ),
         const SizedBox(height: 8),
         Container(
           height: 5,
-          width: 80, // Sedikit dipendekkan agar elegan
+          width: 80,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [Colors.deepPurple, Colors.blueAccent],
+              colors: [Colors.deepPurpleAccent, Colors.blueAccent],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
-            borderRadius: BorderRadius.circular(10), // Lebih bulat
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
       ],
     );
   }
 
-  // 2. Wrapper Section (INI KUNCI SCALABILITY)
-  // Gunakan ini untuk membungkus Judul + Isi Konten
-  Widget _buildSectionContainer({required String title, required Widget child}) {
+  // ============================================================
+  //                      SECTION CONTAINER
+  // ============================================================
+  Widget _buildSectionContainer({
+    required String title,
+    required Widget child,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSectionTitle(title),
         const SizedBox(height: _titleToContentSpacing),
         child,
-        const SizedBox(height: _sectionSpacing), // Jarak otomatis ke section bawahnya
+        const SizedBox(height: _sectionSpacing),
       ],
     );
   }
 
+  // ============================================================
+  //                         BACKGROUND
+  // ============================================================
+  Widget _buildBackground() {
+    const String imageUrl =
+        "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(imageUrl),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            Colors.black.withOpacity(0.55), // efek gelap
+            BlendMode.lighten,
+          ),
+        ),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Colors.black.withOpacity(0.3),
+              Colors.black.withOpacity(0.6),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  //                         MAIN BUILD
+  // ============================================================
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      // Padding horizontal tetap 16, tapi bawah dikasih 50 agar tidak mentok layar
-      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 50.0),
+    return Stack(
       children: [
-        
-        // --- HEADER SECTION ---
-        CustomHeaderWidget(
-          title: 'Welcome To My CV!',
-          subtitle: 'This is a brief introduction about me.',
-          onSeeMorePressed: () {
-            setState(() {
-              _isProfileVisible = !_isProfileVisible;
-            });
-          },
-        ),
+        // === Background Internet (Unsplash) ===
+        Positioned.fill(child: _buildBackground()),
 
-        // Animasi Profile Details
-        AnimatedSize(
-          duration: const Duration(milliseconds: 350), // Sedikit diperlambat biar smooth
-          curve: Curves.easeOutBack, // Efek membal sedikit
-          child: AnimatedOpacity(
-            duration: const Duration(milliseconds: 300),
-            opacity: _isProfileVisible ? 1.0 : 0.0,
-            child: _isProfileVisible
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 24.0, bottom: 24.0),
-                    child: const ProfileDetailsCard(),
-                  )
-                : const SizedBox.shrink(), // Gunakan shrink agar benar-benar hilang
-          ),
-        ),
+        // === Konten Halaman ===
+        SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 50.0),
+            children: [
+              // HEADER
+              CustomHeaderWidget(
+                title: 'Welcome To My CV!',
+                subtitle: 'This is a brief introduction about me.',
+                onSeeMorePressed: () {
+                  setState(() {
+                    _isProfileVisible = !_isProfileVisible;
+                  });
+                },
+              ),
 
-        // Jarak Besar setelah Header sebelum masuk konten utama
-        const SizedBox(height: 40), 
+              // PROFILE DETAILS
+              AnimatedSize(
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeOutBack,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: _isProfileVisible ? 1.0 : 0.0,
+                  child: _isProfileVisible
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24.0),
+                          child: const ProfileDetailsCard(),
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              ),
 
-        // --- FEATURED PROJECTS ---
-        // Menggunakan helper wrapper agar rapi
-        _buildSectionContainer(
-          title: 'Featured Projects',
-          child: FanCarouselWidget(images: sampleImages),
-        ),
+              const SizedBox(height: 40),
 
-        // --- PORTFOLIO ---
-        _buildSectionContainer(
-          title: 'Our Portfolio',
-          child: SizedBox(
-            height: 280, // Sedikit ditinggikan agar kartu punya ruang bernapas
-            child: PortfolioSwiper(portfolioItems: dummyPortfolioItems),
-          ),
-        ),
+              // FEATURED PROJECTS
+              _buildSectionContainer(
+                title: 'Featured Projects',
+                child: FanCarouselWidget(images: sampleImages),
+              ),
 
-        // --- EXPERIENCE ---
-        // Disini kita tidak pakai _buildSectionContainer penuh karena Timeline punya padding sendiri
-        // Tapi kita tetap pakai pola judul manual agar fleksibel
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionTitle('Professional Experience'),
-            const SizedBox(height: _titleToContentSpacing),
-            ProfessionalTimeline(data: dummyExperiences),
-          ],
-        ),
-        
-        // --- (Opsional) Tambahan Footer atau Signature ---
-        const SizedBox(height: 40),
-        Center(
-          child: Text(
-            "Thank you for visiting!",
-            style: TextStyle(
-              color: Colors.grey.shade400,
-              fontStyle: FontStyle.italic,
-            ),
+              // PORTFOLIO
+              _buildSectionContainer(
+                title: 'Our Portfolio',
+                child: SizedBox(
+                  height: 280,
+                  child: PortfolioSwiper(portfolioItems: dummyPortfolioItems),
+                ),
+              ),
+
+              // EXPERIENCE
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle('Professional Experience'),
+                  const SizedBox(height: _titleToContentSpacing),
+                  ProfessionalTimeline(data: dummyExperiences),
+                ],
+              ),
+
+              const SizedBox(height: 40),
+
+              // FOOTER
+              Center(
+                child: Text(
+                  "Thank you for visiting!",
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

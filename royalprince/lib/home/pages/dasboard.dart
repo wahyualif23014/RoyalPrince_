@@ -44,14 +44,14 @@ class _DashboardPageState extends State<DashboardPage> {
       appBar: AppBar(
         title: Text(
           _pageTitles[_currentIndex],
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        backgroundColor: Colors.white10,
+        backgroundColor: Colors.black87,
         foregroundColor: Colors.black,
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_outlined),
+            icon: const Icon(Icons.notifications_outlined, color: Colors.white),
             onPressed: () {},
           ),
         ],

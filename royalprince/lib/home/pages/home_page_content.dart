@@ -1,8 +1,6 @@
-// lib/pages/home_page_content.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-
+import 'package:royalprince/home/widgets/home/timeline/ProfileDetailsCard.dart';
 import '../models/image_model.dart';
 import '../widgets/home/swipper/fan_carousel_widget.dart';
 import '../widgets/header/custom_header_widget.dart';
@@ -21,14 +19,12 @@ class HomePageContent extends StatefulWidget {
 
 class _HomePageContentState extends State<HomePageContent> {
   bool _isProfileVisible = false;
+  
+  static const double _sectionSpacing = 40.0;
+  static const double _titleToContentSpacing = 16.0;
+  static const double _horizontalPadding = 16.0;
+  static const double _bottomPadding = 80.0;
 
-  // --- CONSTANTS UNTUK JARAK ---
-  static const double _sectionSpacing = 50.0;
-  static const double _titleToContentSpacing = 20.0;
-
-  // ============================================================
-  //                       SECTION TITLE
-  // ============================================================
   Widget _buildSectionTitle(String title) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,165 +32,167 @@ class _HomePageContentState extends State<HomePageContent> {
         Text(
           title,
           style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.5,
-            color: Colors.white, // putih agar terbaca di background gelap
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 0.3,
+            color: Colors.white,
           ),
         ),
         const SizedBox(height: 8),
         Container(
-          height: 5,
-          width: 80,
+          height: 4,
+          width: 60,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [Colors.deepPurpleAccent, Colors.blueAccent],
+              colors: [Colors.orange, Colors.deepOrangeAccent],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(2),
           ),
         ),
       ],
     );
   }
 
-  // ============================================================
-  //                      SECTION CONTAINER
-  // ============================================================
   Widget _buildSectionContainer({
     required String title,
     required Widget child,
+    bool withAnimation = true,
   }) {
-    return Column(
+    final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSectionTitle(title),
         const SizedBox(height: _titleToContentSpacing),
         child,
-        const SizedBox(height: _sectionSpacing),
       ],
     );
+
+    return withAnimation
+        ? content.animate().fadeIn(duration: 500.ms).slideY(
+            begin: 0.1,
+            end: 0,
+            curve: Curves.easeOutCubic,
+          )
+        : content;
   }
 
-  // ============================================================
-  //                         BACKGROUND
-  // ============================================================
-  Widget _buildBackground() {
-    const String imageUrl =
-        "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(imageUrl),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.55), // efek gelap
-            BlendMode.lighten,
+  Widget _buildFooter() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 40, bottom: 20),
+      child: Column(
+        children: [
+          Container(
+            width: 100,
+            height: 1,
+            color: Colors.white.withOpacity(0.2),
           ),
-        ),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.black.withOpacity(0.3),
-              Colors.black.withOpacity(0.6),
-            ],
+          const SizedBox(height: 16),
+          Text(
+            "Thank you for visiting my portfolio!",
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.6),
+              fontSize: 14,
+              fontStyle: FontStyle.italic,
+            ),
           ),
-        ),
+          const SizedBox(height: 8),
+          Text(
+            "© 2024 Royalprince. All rights reserved.",
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.4),
+              fontSize: 12,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  // ============================================================
-  //                         MAIN BUILD
-  // ============================================================
+  Widget _buildProfileSection() {
+    return AnimatedSize(
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 300),
+        opacity: _isProfileVisible ? 1.0 : 0.0,
+        child: _isProfileVisible
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: const ProfileDetailsCard()
+                    .animate()
+                    .fadeIn(duration: 300.ms)
+                    .scale(
+                      begin: const Offset(0.95, 0.95),
+                      end: const Offset(1, 1),
+                    ),
+              )
+            : const SizedBox.shrink(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // === Background Internet (Unsplash) ===
-        Positioned.fill(child: _buildBackground()),
-
-        // === Konten Halaman ===
-        SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 50.0),
-            children: [
-              // HEADER
-              CustomHeaderWidget(
-                title: 'Welcome To My CV!',
-                subtitle: 'This is a brief introduction about me.',
-                onSeeMorePressed: () {
-                  setState(() {
-                    _isProfileVisible = !_isProfileVisible;
-                  });
-                },
-              ),
-
-              // PROFILE DETAILS
-              AnimatedSize(
-                duration: const Duration(milliseconds: 350),
-                curve: Curves.easeOutBack,
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 300),
-                  opacity: _isProfileVisible ? 1.0 : 0.0,
-                  child: _isProfileVisible
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 24.0),
-                          child: const ProfileDetailsCard(),
-                        )
-                      : const SizedBox.shrink(),
-                ),
-              ),
-
-              const SizedBox(height: 40),
-
-              // FEATURED PROJECTS
-              _buildSectionContainer(
-                title: 'Featured Projects',
-                child: FanCarouselWidget(images: sampleImages),
-              ),
-
-              // PORTFOLIO
-              _buildSectionContainer(
-                title: 'Our Portfolio',
-                child: SizedBox(
-                  height: 280,
-                  child: PortfolioSwiper(portfolioItems: dummyPortfolioItems),
-                ),
-              ),
-
-              // EXPERIENCE
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildSectionTitle('Professional Experience'),
-                  const SizedBox(height: _titleToContentSpacing),
-                  ProfessionalTimeline(data: dummyExperiences),
-                ],
-              ),
-
-              const SizedBox(height: 40),
-
-              // FOOTER
-              Center(
-                child: Text(
-                  "Thank you for visiting!",
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.6),
-                    fontStyle: FontStyle.italic,
-                  ),
-                ),
-              ),
-            ],
-          ),
+    return SafeArea(
+      child: ListView(
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(
+          _horizontalPadding,
+          16,
+          _horizontalPadding,
+          _bottomPadding,
         ),
-      ],
+        children: [
+          CustomHeaderWidget(
+            title: 'Welcome to My Portfolio',
+            subtitle: 'Innovative solutions through creative development',
+            onSeeMorePressed: () {
+              setState(() {
+                _isProfileVisible = !_isProfileVisible;
+              });
+            },
+          )
+              .animate()
+              .fadeIn(duration: 600.ms)
+              .slideY(begin: 0.2, end: 0),
+
+          const SizedBox(height: 24),
+
+          _buildProfileSection(),
+
+          const SizedBox(height: _sectionSpacing),
+
+          _buildSectionContainer(
+            title: 'Featured Projects',
+            child: FanCarouselWidget(images: sampleImages),
+          ),
+
+          const SizedBox(height: _sectionSpacing),
+
+          _buildSectionContainer(
+            title: 'Our Portfolio',
+            child: SizedBox(
+              height: 260,
+              child: PortfolioSwiper(portfolioItems: dummyPortfolioItems),
+            ),
+          ),
+
+          const SizedBox(height: _sectionSpacing),
+
+          _buildSectionContainer(
+            title: 'Professional Experience',
+            child: ProfessionalTimeline(data: dummyExperiences),
+          ),
+
+          const SizedBox(height: _sectionSpacing),
+
+          _buildFooter()
+              .animate()
+              .fadeIn(delay: 300.ms, duration: 500.ms),
+        ],
+      ),
     );
   }
 }

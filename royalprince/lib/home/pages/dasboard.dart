@@ -18,8 +18,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   final List<Widget> _pages = [
     const HomePageContent(), 
-    const ProjectsPage(), // Indeks 1
-    const ContactPage(), // Indeks 3
+    const ProjectsPage(),
+    const ContactPage(),
     const SettingsPage(),
     const AboutPage(),
   ];
@@ -41,14 +41,36 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
+      
+      backgroundColor: Colors.transparent,
+      
       appBar: AppBar(
         title: Text(
           _pageTitles[_currentIndex],
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+          style: const TextStyle(
+            fontSize: 24, 
+            fontWeight: FontWeight.bold, 
+            color: Colors.white
+          ),
         ),
-        backgroundColor: Colors.black87,
-        foregroundColor: Colors.black,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF0a0a0a),
+                Color(0xFF1a1a1a),
+                Color(0xFF2d2d2d),
+              ],
+            ),
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.white,
         elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined, color: Colors.white),
@@ -56,10 +78,33 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ],
       ),
-      body: IndexedStack(index: _currentIndex, children: _pages),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: _currentIndex,
-        onTap: _onTap,
+      
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF000000),
+              Color(0xFF0a0a0a),
+              Color(0xFF1a1a1a),
+              Color(0xFF2d2d2d),
+            ],
+            stops: [0.0, 0.3, 0.7, 1.0],
+          ),
+        ),
+        child: IndexedStack(
+          index: _currentIndex, 
+          children: _pages
+        ),
+      ),
+      
+      bottomNavigationBar: Container(
+        color: Colors.transparent,
+        child: CustomBottomNavBar(
+          currentIndex: _currentIndex,
+          onTap: _onTap,
+        ),
       ),
     );
   }

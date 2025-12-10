@@ -16,11 +16,11 @@ class FanCarouselWidget extends StatelessWidget {
     return Center(
       child: FanCarouselImageSlider.sliderType1(
         imagesLink: images,
-        isAssets: false,           // Set 'false' karena kita menggunakan URL dari internet
-        autoPlay: true,            // Set 'true' agar slider berjalan otomatis
+        isAssets: false,           
+        autoPlay: true,            
         sliderHeight: 400,
-        showIndicator: true,       // Menampilkan indikator di bawah slider
-        indicatorActiveColor: Colors.blue, // Contoh kustomisasi warna indikator
+        showIndicator: true,       
+        indicatorActiveColor: Colors.blue, 
         indicatorDeactiveColor: Colors.grey,
       ),
     );

@@ -1,7 +1,6 @@
-// lib/widgets/custom_bottom_nav_bar.dart
-
 import 'package:flutter/material.dart';
 import 'package:royalprince/themes/bnb_custom_painter.dart';
+
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -18,35 +17,56 @@ class CustomBottomNavBar extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     
     return Container(
-      // width: size.width,
-      // height: 80,
-      // color: Colors.transparent, 
+      width: size.width,
+      height: 80,
+      color: Colors.transparent, // Background transparan
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           CustomPaint(
             size: Size(size.width, 80),
             painter: BNBCustomePainter(),
           ),
-          Center(
-            heightFactor: 0.6,
+          
+          Positioned(
+            left: size.width / 2 - 30, // Posisi tepat di tengah
+            top: -20,
             child: FloatingActionButton(
-              onPressed: () => onTap(4), // Indeks untuk keranjang
+              onPressed: () => onTap(4),
               backgroundColor: Colors.orange,
-              elevation: 0.1,
-              child: const Icon(Icons.account_circle_rounded, size: 30, color: Colors.black),
+              elevation: 8,
+              child: const Icon(
+                Icons.account_circle_rounded,
+                size: 30,
+                color: Colors.black,
+              ),
             ),
           ),
-          SizedBox(
+          
+          Container(
             width: size.width,
             height: 80,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildNavItem(Icons.home, 0),
-                _buildNavItem(Icons.work_outline, 1),
-                SizedBox(width: size.width * .20),
-                _buildNavItem(Icons.contact_mail, 2),
-                _buildNavItem(Icons.settings, 3),
+                Row(
+                  children: [
+                    _buildNavItem(Icons.home, 0, size),
+                    SizedBox(width: size.width * 0.1),
+                    _buildNavItem(Icons.work_outline, 1, size),
+                  ],
+                ),
+                
+                SizedBox(width: 60), // Lebar sesuai dengan FAB
+                
+                Row(
+                  children: [
+                    _buildNavItem(Icons.contact_mail, 2, size),
+                    SizedBox(width: size.width * 0.1),
+                    _buildNavItem(Icons.settings, 3, size),
+                  ],
+                ),
               ],
             ),
           )
@@ -55,13 +75,30 @@ class CustomBottomNavBar extends StatelessWidget {
     );
   }
 
-  // Helper widget untuk membuat setiap item navigasi
-  Widget _buildNavItem(IconData icon, int index, {Color? color}) {
-    return IconButton(
-      onPressed: () => onTap(index),
-      icon: Icon(
-        icon,
-        color: currentIndex == index ? Colors.orange : (Colors.white),
+  /// Membangun item navigasi individual
+  Widget _buildNavItem(IconData icon, int index, Size size) {
+    return GestureDetector(
+      onTap: () => onTap(index),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 28,
+            color: currentIndex == index ? Colors.orange : Colors.white,
+          ),
+          const SizedBox(height: 4),
+          // Indicator aktif
+          if (currentIndex == index)
+            Container(
+              width: 6,
+              height: 6,
+              decoration: const BoxDecoration(
+                color: Colors.orange,
+                shape: BoxShape.circle,
+              ),
+            ),
+        ],
       ),
     );
   }

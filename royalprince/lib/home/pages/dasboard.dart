@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:royalprince/home/pages/about.dart';
-import 'package:royalprince/home/pages/project.dart';
+import 'package:royalprince/home/pages/shop.dart';
 import '../widgets/navbar/custom_bottom_nav_bar.dart'; 
 import 'home_page_content.dart';
 import 'settings_page.dart';
@@ -26,7 +26,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   final List<String> _pageTitles = [
     'Royalprince',
-    'Projects',
+    'Shop',
     'Contact',
     'Settings',
     'About Me',
@@ -72,10 +72,32 @@ class _DashboardPageState extends State<DashboardPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications_outlined, color: Colors.white),
-            onPressed: () {},
-          ),
+
+          _currentIndex == 1 
+              ? IconButton(
+                  icon: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
+                  onPressed: () {
+                    // Tambahkan logika untuk keranjang belanja
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   const SnackBar(
+                    //     content: Text('Fitur keranjang belanja'),
+                    //     duration: Duration(seconds: 1),
+                    //   ),
+                    // );
+                  },
+                )
+              : IconButton(
+                  icon: const Icon(Icons.notifications_outlined, color: Colors.white),
+                  onPressed: () {
+                    // Logika untuk notifikasi
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   const SnackBar(
+                    //     content: Text('Fitur notifikasi'),
+                    //     duration: Duration(seconds: 1),
+                    //   ),
+                    // );
+                  },
+                ),
         ],
       ),
       

@@ -47,6 +47,8 @@ dependencies:
   url_launcher: ^6.3.2
   timelines_plus: ^1.0.1
   cached_network_image: ^3.2.3
+  flutter_staggered_animations: ^1.1.1
+  m3_carousel: ^2.1.0
 
 dev_dependencies:
   flutter_test:

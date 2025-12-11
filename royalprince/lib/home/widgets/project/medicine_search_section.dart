@@ -1,92 +1,134 @@
 // lib/home/widgets/project/medicine_search_section.dart
 import 'package:flutter/material.dart';
-import '../../models/project/medicine_model.dart';
 
-class MedicineSearchSection extends StatelessWidget {
-  final List<MedicineFilter> filters;
+class MedicineSearchSection extends StatefulWidget {
   final ValueChanged<String>? onSearchChanged;
-  final ValueChanged<String>? onFilterSelected;
+  final String? initialQuery;
+  final String? hintText;
+  final EdgeInsetsGeometry? margin;
 
   const MedicineSearchSection({
     super.key,
-    this.filters = const [],
     this.onSearchChanged,
-    this.onFilterSelected,
+    this.initialQuery,
+    this.hintText,
+    this.margin,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final List<MedicineFilter> displayFilters = 
-        filters.isEmpty ? medicineFilters : filters;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // const _SectionTitle(title: 'Cari Obat'),
-        const SizedBox(height: 20),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withOpacity(0.1)),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: TextField(
-            style: const TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              hintText: 'Masukkan nama obat atau gejala...',
-              hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
-              border: InputBorder.none,
-              prefixIcon: Icon(
-                Icons.search,
-                color: Colors.white.withOpacity(0.7),
-              ),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  Icons.filter_list,
-                  color: Colors.white.withOpacity(0.7),
-                ),
-                onPressed: () {},
-              ),
-            ),
-            onChanged: onSearchChanged,
-          ),
-        ),
-        const SizedBox(height: 16),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: displayFilters.map((filter) {
-            return _MedicineFilterChip(
-              filter: filter,
-              onSelected: onFilterSelected,
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
+  State<MedicineSearchSection> createState() => _MedicineSearchSectionState();
 }
 
-class _MedicineFilterChip extends StatelessWidget {
-  final MedicineFilter filter;
-  final ValueChanged<String>? onSelected;
+class _MedicineSearchSectionState extends State<MedicineSearchSection> {
+  late TextEditingController _searchController;
+  final FocusNode _focusNode = FocusNode();
+  bool _hasFocus = false;
 
-  const _MedicineFilterChip({
-    required this.filter,
-    this.onSelected,
-  });
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController(text: widget.initialQuery);
+    _focusNode.addListener(() {
+      setState(() {
+        _hasFocus = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Chip(
-      label: Text(
-        filter.label,
-        style: const TextStyle(fontSize: 12, color: Colors.white),
+    return Container(
+      margin: widget.margin ?? const EdgeInsets.symmetric(horizontal: 16),
+      child: _buildSearchBar(),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Container(
+      decoration: BoxDecoration(
+        color: _hasFocus 
+            ? Colors.black.withOpacity(0.4)
+            : Colors.black.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: _hasFocus 
+              ? Colors.white.withOpacity(0.3)
+              : Colors.white.withOpacity(0.1),
+          width: _hasFocus ? 1.5 : 1,
+        ),
+        boxShadow: _hasFocus
+            ? [
+                BoxShadow(
+                  color: Colors.white.withOpacity(0.05),
+                  blurRadius: 8,
+                  spreadRadius: 1,
+                ),
+              ]
+            : null,
       ),
-      backgroundColor: Colors.orange.withOpacity(0.2),
-      side: BorderSide(color: Colors.orange.withOpacity(0.3)),
-      // onSelected: (_) => onSelected?.call(filter.id),
+      child: TextField(
+        controller: _searchController,
+        focusNode: _focusNode,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: Colors.white,
+        ),
+        decoration: InputDecoration(
+          hintText: widget.hintText ?? 'Cari nama obat..',
+          hintStyle: TextStyle(
+            color: Colors.white.withOpacity(0.5),
+            fontSize: 15,
+          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 16,
+          ),
+          prefixIcon: Icon(
+            Icons.search,
+            color: _hasFocus 
+                ? Colors.white.withOpacity(0.9)
+                : Colors.white.withOpacity(0.7),
+            size: 24,
+          ),
+          suffixIcon: _searchController.text.isNotEmpty
+              ? _buildClearButton()
+              : null,
+        ),
+        onChanged: (value) {
+          widget.onSearchChanged?.call(value);
+        },
+        onTap: () {
+          // Optional: Handle tap if needed
+        },
+        onSubmitted: (value) {
+          // Optional: Handle search submission
+          widget.onSearchChanged?.call(value);
+        },
+        textInputAction: TextInputAction.search,
+      ),
+    );
+  }
+
+  Widget _buildClearButton() {
+    return IconButton(
+      icon: Icon(
+        Icons.clear,
+        color: Colors.white.withOpacity(0.7),
+        size: 20,
+      ),
+      onPressed: () {
+        _searchController.clear();
+        widget.onSearchChanged?.call('');
+        _focusNode.unfocus();
+      },
+      splashRadius: 20,
     );
   }
 }

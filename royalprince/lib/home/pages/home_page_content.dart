@@ -134,7 +134,20 @@ class _HomePageContentState extends State<HomePageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF000000),
+            Color(0xFF0a0a0a),
+            Color(0xFF1a1a1a),
+            Color(0xFF2d2d2d),
+          ],
+          stops: [0.0, 0.3, 0.7, 1.0],
+        ),
+      ),
       child: ListView(
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.fromLTRB(

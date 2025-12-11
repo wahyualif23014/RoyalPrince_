@@ -24,7 +24,7 @@ class PharmacyProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12), // Radius lebih kecil
       ),
       clipBehavior: Clip.antiAlias,
-      color: Colors.grey[50], // Warna abu-abu terang untuk background
+      color: Colors.black87.withOpacity(0.05), // Warna abu-abu terang untuk background
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -478,7 +478,7 @@ class ProductDetailBottomSheetNew extends StatelessWidget {
       builder: (context, scrollController) {
         return Container(
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: Colors.black54,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: Column(
@@ -1165,50 +1165,49 @@ class ProductDetailBottomSheet extends StatelessWidget {
                       const SizedBox(height: 32),
 
                       // Action Buttons
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.grey[200],
-                                foregroundColor: Colors.black,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: const Text('KEMBALI'),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                // Add to cart logic
-                                Navigator.pop(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                              child: const Text('TAMBAH KE KERANJANG'),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: ElevatedButton(
+                      //         onPressed: () {
+                      //           Navigator.pop(context);
+                      //         },
+                      //         style: ElevatedButton.styleFrom(
+                      //           backgroundColor: Colors.grey[200],
+                      //           foregroundColor: Colors.black,
+                      //           padding: const EdgeInsets.symmetric(
+                      //             vertical: 16,
+                      //           ),
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(12),
+                      //           ),
+                      //         ),
+                      //         child: const Text('KEMBALI'),
+                      //       ),
+                      //     ),
+                      //     const SizedBox(width: 12),
+                      //     Expanded(
+                      //       child: ElevatedButton(
+                      //         onPressed: () {
+                      //           // Add to cart logic
+                      //           Navigator.pop(context);
+                      //         },
+                      //         style: ElevatedButton.styleFrom(
+                      //           backgroundColor: Colors.blue,
+                      //           foregroundColor: Colors.white,
+                      //           padding: const EdgeInsets.symmetric(
+                      //             vertical: 16,
+                      //           ),
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(12),
+                      //           ),
+                      //         ),
+                      //         child: const Text('TAMBAH KE KERANJANG'),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
 
-                      const SizedBox(height: 40),
                     ],
                   ),
                 ),

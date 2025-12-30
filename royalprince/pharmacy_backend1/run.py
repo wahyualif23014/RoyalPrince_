@@ -1,0 +1,17 @@
+import uvicorn
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+if __name__ == "__main__":
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", 8000))
+    
+    uvicorn.run(
+        "app.main:app",
+        host=host,
+        port=port,
+        reload=True if os.getenv("DEBUG") == "True" else False,
+        log_level="info"
+    )

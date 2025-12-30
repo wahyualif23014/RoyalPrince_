@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:motion/motion.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart'; // TAMBAHKAN INI
 import './home/pages/dasboard.dart'; 
-import './home/pages/onboarding_screen.dart'; 
+import './home/pages/onboarding_screen.dart';
+import './provider/product_provider.dart'; // TAMBAHKAN INI (sesuaikan path)
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,10 +27,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Aplikasi Royalprince',
-      home: showHome ? const DashboardPage() : const OnBoardingPage(),
+    return MultiProvider( // GANTI MaterialApp dengan MultiProvider
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
+        // Tambah provider lain jika ada
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Aplikasi Royalprince',
+        home: showHome ? const DashboardPage() : const OnBoardingPage(),
+      ),
     );
   }
 }

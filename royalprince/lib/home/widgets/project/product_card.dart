@@ -1,6 +1,6 @@
 // lib/home/widgets/shop/product_card.dart
 import 'package:flutter/material.dart';
-import '../../models/project/product_model.dart';
+import '../../models/project/product_model.dart'; // PATH YANG DIPERBAIKI
 
 class PharmacyProductCard extends StatelessWidget {
   final PharmacyProduct product;
@@ -19,12 +19,12 @@ class PharmacyProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2, // Lebih kecil
+      elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12), // Radius lebih kecil
+        borderRadius: BorderRadius.circular(12),
       ),
       clipBehavior: Clip.antiAlias,
-      color: Colors.black87.withOpacity(0.05), // Warna abu-abu terang untuk background
+      color: Colors.black87.withOpacity(0.05),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -34,7 +34,7 @@ class PharmacyProductCard extends StatelessWidget {
             _buildImageSection(context),
 
             Padding(
-              padding: const EdgeInsets.all(12), // Padding lebih kecil
+              padding: const EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -42,12 +42,13 @@ class PharmacyProductCard extends StatelessWidget {
 
                   const SizedBox(height: 6),
 
+                  // Product Name - dengan null safety
                   Text(
                     product.name,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600, // Font weight lebih ringan
-                      fontSize: 14, // Font size lebih kecil
-                      color: Colors.grey[800], // Warna lebih gelap
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: Colors.grey[800],
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -55,11 +56,12 @@ class PharmacyProductCard extends StatelessWidget {
 
                   const SizedBox(height: 2),
 
+                  // Manufacturer - dengan null safety
                   Text(
                     product.manufacturer,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[500], // Abu-abu medium
-                      fontSize: 10, // Lebih kecil
+                      color: Colors.grey[500],
+                      fontSize: 10,
                     ),
                   ),
 
@@ -94,20 +96,30 @@ class PharmacyProductCard extends StatelessWidget {
   Widget _buildImageSection(BuildContext context) {
     return Stack(
       children: [
-        // Product Image - lebih kecil
+        // Product Image dengan error handling - DIPERBAIKI
         Container(
-          height: showFullDetails ? 140 : 120, // Tinggi lebih kecil
+          height: showFullDetails ? 140 : 120,
           width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey[200], // Background abu-abu
-            image: DecorationImage(
-              image: NetworkImage(product.imageUrl),
-              fit: BoxFit.cover,
-            ),
+          color: Colors.grey[200],
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                color: Colors.grey[300],
+                child: Center(
+                  child: Icon(
+                    Icons.medical_services,
+                    color: Colors.grey[500],
+                    size: 40,
+                  ),
+                ),
+              );
+            },
           ),
         ),
 
-        // Featured Badge - lebih kecil
+        // Featured Badge
         if (product.isFeatured)
           Positioned(
             top: 8,
@@ -122,14 +134,14 @@ class PharmacyProductCard extends StatelessWidget {
                 'FEATURED',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 8, // Font lebih kecil
+                  fontSize: 8,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ),
           ),
 
-        // Stock Badge - lebih kecil
+        // Stock Badge
         Positioned(
           top: 8,
           right: 8,
@@ -143,7 +155,7 @@ class PharmacyProductCard extends StatelessWidget {
               product.stockStatus,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 8, // Font lebih kecil
+                fontSize: 8,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -156,32 +168,32 @@ class PharmacyProductCard extends StatelessWidget {
   Widget _buildBadgesSection() {
     return Row(
       children: [
-        // Category Badge - lebih kecil
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-          decoration: BoxDecoration(
-            color: Colors.blueGrey[50], // Abu-abu kebiruan
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: Colors.blueGrey.shade500),
-          ),
-          child: Text(
-            product.category.split(' ').first,
-            style: TextStyle(
-              fontSize: 9, // Lebih kecil
-              color: Colors.blueGrey[700],
-              fontWeight: FontWeight.w500,
+        // Category Badge - ambil kata pertama saja
+        if (product.category.isNotEmpty) ...[
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(
+              color: Colors.blueGrey[50],
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: Colors.blueGrey.shade500),
+            ),
+            child: Text(
+              product.category.split(' ').first,
+              style: TextStyle(
+                fontSize: 9,
+                color: Colors.blueGrey[700],
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-        ),
+          const SizedBox(width: 6),
+        ],
 
-        const SizedBox(width: 6),
-
-        // Prescription Badge - lebih kecil
+        // Prescription Badge
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: BoxDecoration(
-            color:
-                product.isPrescription ? Colors.orange[50] : Colors.green[50],
+            color: product.isPrescription ? Colors.orange[50] : Colors.green[50],
             borderRadius: BorderRadius.circular(6),
             border: Border.all(
               color: product.isPrescription ? Colors.orange : Colors.green,
@@ -190,17 +202,16 @@ class PharmacyProductCard extends StatelessWidget {
           child: Text(
             product.prescriptionText,
             style: TextStyle(
-              fontSize: 9, // Lebih kecil
-              color:
-                  product.isPrescription
-                      ? Colors.orange[700]
-                      : Colors.green[700],
+              fontSize: 9,
+              color: product.isPrescription
+                  ? Colors.orange[700]
+                  : Colors.green[700],
               fontWeight: FontWeight.w500,
             ),
           ),
         ),
 
-        // Expiry Badge (if showFullDetails) - lebih kecil
+        // Expiry Badge (hanya jika showFullDetails)
         if (showFullDetails) ...[
           const SizedBox(width: 6),
           Container(
@@ -213,7 +224,7 @@ class PharmacyProductCard extends StatelessWidget {
             child: Text(
               product.expiryText,
               style: TextStyle(
-                fontSize: 9, // Lebih kecil
+                fontSize: 9,
                 color: product.expiryColor,
                 fontWeight: FontWeight.w500,
               ),
@@ -227,16 +238,15 @@ class PharmacyProductCard extends StatelessWidget {
   Widget _buildRatingSection() {
     return Row(
       children: [
-        // Stars - lebih kecil
+        // Stars
         Row(
           children: List.generate(5, (index) {
+            final rating = product.rating;
             return Icon(
-              index < product.rating.floor()
+              index < rating.floor()
                   ? Icons.star
-                  : index < product.rating
-                  ? Icons.star_half
-                  : Icons.star_border,
-              size: 14, // Icon lebih kecil
+                  : (index < rating ? Icons.star_half : Icons.star_border),
+              size: 14,
               color: Colors.amber[600],
             );
           }),
@@ -244,7 +254,7 @@ class PharmacyProductCard extends StatelessWidget {
 
         const SizedBox(width: 4),
 
-        // Rating Number - lebih kecil
+        // Rating Number
         Text(
           product.rating.toStringAsFixed(1),
           style: const TextStyle(
@@ -256,10 +266,13 @@ class PharmacyProductCard extends StatelessWidget {
 
         const SizedBox(width: 4),
 
-        // Review Count - lebih kecil
+        // Review Count
         Text(
           '(${product.reviewCount})',
-          style: TextStyle(fontSize: 11, color: Colors.grey[500]),
+          style: TextStyle(
+            fontSize: 11,
+            color: Colors.grey[500],
+          ),
         ),
       ],
     );
@@ -269,45 +282,49 @@ class PharmacyProductCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Price - lebih kecil
+        // Price
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               product.formattedPrice,
               style: const TextStyle(
-                fontSize: 16, // Sedikit lebih kecil
+                fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: Colors.blueGrey, // Warna abu-abu kebiruan
+                color: Colors.blueGrey,
               ),
             ),
-            if (showFullDetails)
+            if (showFullDetails && product.dosage.isNotEmpty)
               Text(
                 '/ ${product.dosage}',
-                style: TextStyle(fontSize: 10, color: Colors.grey[500]),
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.grey[500],
+                ),
               ),
           ],
         ),
 
-        // Stock Info - lebih kecil
-        Row(
-          children: [
-            Icon(
-              Icons.inventory_2_outlined,
-              size: 12, // Icon lebih kecil
-              color: product.stockColor,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              '${product.stock} pcs',
-              style: TextStyle(
-                fontSize: 11,
+        // Stock Info - hanya tampilkan jika stok > 0
+        if (product.stock > 0)
+          Row(
+            children: [
+              Icon(
+                Icons.inventory_2_outlined,
+                size: 12,
                 color: product.stockColor,
-                fontWeight: FontWeight.w600,
               ),
-            ),
-          ],
-        ),
+              const SizedBox(width: 4),
+              Text(
+                '${product.stock} pcs',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: product.stockColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
       ],
     );
   }
@@ -317,29 +334,36 @@ class PharmacyProductCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Description
-        Text(
-          product.description,
-          style: const TextStyle(fontSize: 12, color: Colors.grey),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
+        if (product.description.isNotEmpty)
+          Text(
+            product.description,
+            style: const TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
 
-        const SizedBox(height: 8),
+        if (product.description.isNotEmpty) const SizedBox(height: 8),
 
         // Tags
-        Wrap(
-          spacing: 6,
-          runSpacing: 4,
-          children:
-              product.tags.map((tag) {
-                return Chip(
-                  label: Text(tag, style: const TextStyle(fontSize: 10)),
-                  backgroundColor: Colors.grey[100],
-                  padding: EdgeInsets.zero,
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 8),
-                );
-              }).toList(),
-        ),
+        if (product.tags.isNotEmpty)
+          Wrap(
+            spacing: 6,
+            runSpacing: 4,
+            children: product.tags.map((tag) {
+              return Chip(
+                label: Text(
+                  tag,
+                  style: const TextStyle(fontSize: 10),
+                ),
+                backgroundColor: Colors.grey[100],
+                padding: EdgeInsets.zero,
+                labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+              );
+            }).toList(),
+          ),
       ],
     );
   }
@@ -347,25 +371,23 @@ class PharmacyProductCard extends StatelessWidget {
   Widget _buildActionButtons(BuildContext context) {
     return Row(
       children: [
-        // Detail Button - lebih kecil
+        // Detail Button
         Expanded(
           child: OutlinedButton(
             onPressed: onTap,
             style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-              ), // Padding lebih kecil
+              padding: const EdgeInsets.symmetric(vertical: 8),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6), // Radius lebih kecil
+                borderRadius: BorderRadius.circular(6),
               ),
               side: BorderSide(
                 color: Colors.blueGrey[400]!,
-              ), // Warna abu-abu kebiruan
+              ),
             ),
             child: Text(
               'Detail',
               style: TextStyle(
-                fontSize: 12, // Font lebih kecil
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: Colors.blueGrey[700],
               ),
@@ -375,20 +397,20 @@ class PharmacyProductCard extends StatelessWidget {
 
         const SizedBox(width: 8),
 
-        // Add to Cart Button - lebih kecil
+        // Add to Cart Button - hanya jika ada stock
         if (onAddToCart != null && product.stock > 0)
           Container(
-            width: 36, // Lebih kecil
+            width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: Colors.blueGrey[600], // Warna abu-abu kebiruan
+              color: Colors.blueGrey[600],
               borderRadius: BorderRadius.circular(6),
             ),
             child: IconButton(
               onPressed: onAddToCart,
               icon: const Icon(
                 Icons.add_shopping_cart,
-                size: 16, // Icon lebih kecil
+                size: 16,
                 color: Colors.white,
               ),
               padding: EdgeInsets.zero,
@@ -399,21 +421,30 @@ class PharmacyProductCard extends StatelessWidget {
   }
 }
 
-// Grid View untuk multiple products
+// ===================== PRODUCT GRID VIEW =====================
+
 class PharmacyProductGridView extends StatelessWidget {
   final List<PharmacyProduct> products;
   final int crossAxisCount;
   final bool showFullDetails;
+  final Function(PharmacyProduct)? onProductTap;
+  final Function(PharmacyProduct)? onAddToCart;
 
   const PharmacyProductGridView({
     super.key,
     required this.products,
     this.crossAxisCount = 2,
     this.showFullDetails = false,
+    this.onProductTap,
+    this.onAddToCart,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (products.isEmpty) {
+      return _buildEmptyState();
+    }
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -428,18 +459,55 @@ class PharmacyProductGridView extends StatelessWidget {
         final product = products[index];
         return PharmacyProductCard(
           product: product,
-          onTap: () {
-            // Navigate to product detail
-            _showProductDetail(context, product);
-          },
-          onAddToCart: () {
-            // Add to cart logic
-            _addToCart(context, product);
-          },
+          onTap: () => _handleProductTap(context, product),
+          onAddToCart: onAddToCart != null
+              ? () => onAddToCart!(product)
+              : null,
           showFullDetails: showFullDetails,
         );
       },
     );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.inventory_2_outlined,
+            size: 48,
+            color: Colors.grey[400],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Tidak ada produk',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Produk akan muncul di sini',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[500],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _handleProductTap(BuildContext context, PharmacyProduct product) {
+    if (onProductTap != null) {
+      onProductTap!(product);
+    } else {
+      // Default behavior: show detail sheet
+      _showProductDetail(context, product);
+    }
   }
 
   void _showProductDetail(BuildContext context, PharmacyProduct product) {
@@ -448,7 +516,10 @@ class PharmacyProductGridView extends StatelessWidget {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
-        return ProductDetailBottomSheet(product: product);
+        return ProductDetailBottomSheet(
+          product: product,
+          showFullDetails: showFullDetails,
+        );
       },
     );
   }
@@ -458,16 +529,27 @@ class PharmacyProductGridView extends StatelessWidget {
       SnackBar(
         content: Text('${product.name} ditambahkan ke keranjang'),
         duration: const Duration(seconds: 2),
+        backgroundColor: Colors.green[600],
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
       ),
     );
   }
 }
 
-// Bottom Sheet untuk Product Detail
-class ProductDetailBottomSheetNew extends StatelessWidget {
-  final PharmacyProduct product;
+// ===================== PRODUCT DETAIL BOTTOM SHEET =====================
 
-  const ProductDetailBottomSheetNew({super.key, required this.product});
+class ProductDetailBottomSheet extends StatelessWidget {
+  final PharmacyProduct product;
+  final bool showFullDetails; // PARAMETER BARU DITAMBAHKAN
+
+  const ProductDetailBottomSheet({
+    super.key,
+    required this.product,
+    this.showFullDetails = false, // DEFAULT VALUE
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -477,99 +559,95 @@ class ProductDetailBottomSheetNew extends StatelessWidget {
       maxChildSize: 0.95,
       builder: (context, scrollController) {
         return Container(
-          decoration: const BoxDecoration(
-            color: Colors.black54,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(24),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 20,
+                spreadRadius: 5,
+              ),
+            ],
           ),
           child: Column(
             children: [
-              // Drag Handle dengan shadow untuk highlight
+              // Drag Handle
               Container(
-                margin: const EdgeInsets.only(top: 12, bottom: 8),
+                margin: const EdgeInsets.only(top: 12),
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
                   color: Colors.grey[400],
                   borderRadius: BorderRadius.circular(2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      blurRadius: 2,
-                      offset: const Offset(0, 1),
-                    ),
-                  ],
                 ),
               ),
 
               Expanded(
                 child: SingleChildScrollView(
                   controller: scrollController,
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Product Image dengan shadow dan border radius
+                      // Product Image dengan error handling - DIPERBAIKI
                       Container(
                         height: 250,
                         width: double.infinity,
                         margin: const EdgeInsets.only(bottom: 20),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                              spreadRadius: 1,
-                            ),
-                          ],
-                          image: DecorationImage(
-                            image: NetworkImage(product.imageUrl),
-                            fit: BoxFit.cover,
-                          ),
+                          color: Colors.grey[200],
+                        ),
+                        child: Image.network(
+                          product.imageUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              color: Colors.grey[300],
+                              child: Center(
+                                child: Icon(
+                                  Icons.medical_services,
+                                  color: Colors.grey[500],
+                                  size: 60,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
 
                       // Product Name & Manufacturer
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              product.name,
-                              style: const TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.w800,
-                                height: 1.2,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              product.manufacturer,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                      Text(
+                        product.name,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black87,
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-
-                      // Price & Rating Row dengan container background
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 16,
+                      
+                      if (product.manufacturer.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(
+                            product.manufacturer,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey[600],
+                            ),
+                          ),
                         ),
-                        margin: const EdgeInsets.only(bottom: 20),
+
+                      const SizedBox(height: 20),
+
+                      // Price & Rating Row
+                      Container(
+                        padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.grey[50],
                           borderRadius: BorderRadius.circular(12),
@@ -578,15 +656,15 @@ class ProductDetailBottomSheetNew extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            // Price Section
+                            // Price
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text(
+                                Text(
                                   'Harga',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.grey,
+                                    color: Colors.grey[600],
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -602,15 +680,15 @@ class ProductDetailBottomSheetNew extends StatelessWidget {
                               ],
                             ),
 
-                            // Rating Section
+                            // Rating
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                const Text(
+                                Text(
                                   'Rating',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.grey,
+                                    color: Colors.grey[600],
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -620,18 +698,19 @@ class ProductDetailBottomSheetNew extends StatelessWidget {
                                     ...List.generate(5, (index) {
                                       return Icon(
                                         index < product.rating.floor()
-                                            ? Icons.star_rounded
-                                            : Icons.star_border_rounded,
+                                            ? Icons.star
+                                            : Icons.star_border,
                                         size: 20,
                                         color: Colors.amber[700],
                                       );
                                     }),
                                     const SizedBox(width: 8),
                                     Text(
-                                      '${product.rating.toStringAsFixed(1)}',
+                                      product.rating.toStringAsFixed(1),
                                       style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
+                                        color: Colors.black87,
                                       ),
                                     ),
                                   ],
@@ -650,259 +729,100 @@ class ProductDetailBottomSheetNew extends StatelessWidget {
                         ),
                       ),
 
-                      // Info Grid dengan spacing yang lebih baik
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Informasi Produk',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                height: 1.2,
-                              ),
+                      const SizedBox(height: 20),
+
+                      // Info Grid
+                      GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.5,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                        children: [
+                          _buildInfoTile(
+                            'Kategori',
+                            product.category,
+                            Icons.category,
+                            Colors.blue,
+                          ),
+                          _buildInfoTile(
+                            'Dosis',
+                            product.dosage,
+                            Icons.medical_services,
+                            Colors.green,
+                          ),
+                          _buildInfoTile(
+                            'Stok',
+                            '${product.stock} pcs',
+                            Icons.inventory,
+                            Colors.orange,
+                          ),
+                          _buildInfoTile(
+                            'Resep',
+                            product.prescriptionText,
+                            Icons.description,
+                            Colors.purple,
+                          ),
+                          if (showFullDetails)
+                            _buildInfoTile(
+                              'Kadaluarsa',
+                              product.expiryText,
+                              Icons.calendar_today,
+                              product.expiryColor,
                             ),
-                            const SizedBox(height: 16),
-                            GridView.count(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              crossAxisCount: 2,
-                              childAspectRatio: 3.1,
-                              crossAxisSpacing: 12,
-                              mainAxisSpacing: 12,
-                              children: [
-                                _buildInfoTile(
-                                  'Kategori',
-                                  product.category,
-                                  Icons.category_rounded,
-                                  Colors.blue,
-                                ),
-                                _buildInfoTile(
-                                  'Dosis',
-                                  product.dosage,
-                                  Icons.medical_services_rounded,
-                                  Colors.green,
-                                ),
-                                _buildInfoTile(
-                                  'Stok',
-                                  '${product.stock} pcs',
-                                  Icons.inventory_rounded,
-                                  Colors.orange,
-                                ),
-                                _buildInfoTile(
-                                  'Resep',
-                                  product.prescriptionText,
-                                  Icons.description_rounded,
-                                  Colors.purple,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
 
-                      // Description dengan background
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        margin: const EdgeInsets.only(bottom: 24),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[50],
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey[200]!),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.info_outline_rounded,
-                                  color: Colors.blue[700],
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Deskripsi Produk',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              product.description,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.grey[700],
-                                height: 1.6,
-                              ),
-                              textAlign: TextAlign.justify,
-                            ),
-                          ],
-                        ),
-                      ),
+                      const SizedBox(height: 20),
 
-                      // Tags section dengan icon
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 32),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.local_offer_rounded,
-                                  color: Colors.blue[700],
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Tags',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            Wrap(
-                              spacing: 10,
-                              runSpacing: 10,
-                              children:
-                                  product.tags.map((tag) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.blue[50]!,
-                                            Colors.blue[100]!,
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                        ),
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                          color: Colors.blue[200]!,
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.blue.withOpacity(0.1),
-                                            blurRadius: 4,
-                                            offset: const Offset(0, 2),
-                                          ),
-                                        ],
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 8,
-                                      ),
-                                      child: Text(
-                                        tag,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.blue[800],
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                            ),
-                          ],
+                      // Description
+                      if (product.description.isNotEmpty) ...[
+                        const Text(
+                          'Deskripsi',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black87,
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        Text(
+                          product.description,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey[700],
+                            height: 1.6,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                        const SizedBox(height: 20),
+                      ],
 
-                      // Action Buttons dengan elevated design
-                      Container(
-                        padding: const EdgeInsets.only(bottom: 24),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    foregroundColor: Colors.grey[800],
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 18,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      side: BorderSide(
-                                        color: Colors.grey[300]!,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    elevation: 0,
-                                  ),
-                                  child: const Text(
-                                    'KEMBALI',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.blue.withOpacity(0.3),
-                                      blurRadius: 10,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // Add to cart logic
-                                    Navigator.pop(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blue[600],
-                                    foregroundColor: Colors.white,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 18,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    elevation: 0,
-                                  ),
-                                  child: const Text(
-                                    'TAMBAH KE KERANJANG',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                      // Tags
+                      if (product.tags.isNotEmpty) ...[
+                        const Text(
+                          'Tags',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black87,
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: product.tags.map((tag) {
+                            return Chip(
+                              label: Text(tag),
+                              backgroundColor: Colors.blue[50],
+                              labelStyle: const TextStyle(color: Colors.blue),
+                            );
+                          }).toList(),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
                     ],
                   ),
                 ),
@@ -921,28 +841,26 @@ class ProductDetailBottomSheetNew extends StatelessWidget {
     Color iconColor,
   ) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[50],
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey[200]!),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: iconColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, size: 20, color: iconColor),
+            child: Icon(
+              icon,
+              size: 20,
+              color: iconColor,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -961,297 +879,12 @@ class ProductDetailBottomSheetNew extends StatelessWidget {
                 Text(
                   value,
                   style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black87,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ProductDetailBottomSheet extends StatelessWidget {
-  final PharmacyProduct product;
-
-  const ProductDetailBottomSheet({
-    Key? key, // PERBAIKAN: Ubah super.key menjadi Key? key
-    required this.product,
-  }) : super(key: key); // PERBAIKAN: Tambahkan super(key: key)
-
-  @override
-  Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.9,
-      minChildSize: 0.5,
-      maxChildSize: 0.95,
-      builder: (context, scrollController) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-          ),
-          child: Column(
-            children: [
-              // Drag Handle
-              Container(
-                margin: const EdgeInsets.only(top: 12),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Product Image
-                      Container(
-                        height: 250,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          image: DecorationImage(
-                            image: NetworkImage(product.imageUrl),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Product Name & Manufacturer
-                      Text(
-                        product.name,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      Text(
-                        product.manufacturer,
-                        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                      ),
-
-                      const SizedBox(height: 16),
-
-                      // Price & Rating Row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            product.formattedPrice,
-                            style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              ...List.generate(5, (index) {
-                                return Icon(
-                                  index < product.rating.floor()
-                                      ? Icons.star
-                                      : Icons.star_border,
-                                  size: 20,
-                                  color: Colors.amber,
-                                );
-                              }),
-                              const SizedBox(width: 8),
-                              Text(
-                                '${product.rating.toStringAsFixed(1)} (${product.reviewCount})',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Info Grid
-                      GridView.count(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.5,
-                        crossAxisSpacing: 9,
-                        mainAxisSpacing: 12,
-
-                        children: [
-                          _buildInfoTile(
-                            'Kategori',
-                            product.category,
-                            Icons.category,
-                          ),
-                          _buildInfoTile(
-                            'Dosis',
-                            product.dosage,
-                            Icons.medical_services,
-                          ),
-                          _buildInfoTile(
-                            'Stok',
-                            '${product.stock} pcs',
-                            Icons.inventory,
-                          ),
-                          _buildInfoTile(
-                            'Resep',
-                            product.prescriptionText,
-                            Icons.description,
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Description
-                      const Text(
-                        'Deskripsi Produk',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        product.description,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[700],
-                          height: 1.6,
-                        ),
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Tags
-                      const Text(
-                        'Tags',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children:
-                            product.tags.map((tag) {
-                              return Chip(
-                                label: Text(tag),
-                                backgroundColor: Colors.blue[50],
-                                labelStyle: const TextStyle(color: Colors.blue),
-                              );
-                            }).toList(),
-                      ),
-
-                      const SizedBox(height: 32),
-
-                      // Action Buttons
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: ElevatedButton(
-                      //         onPressed: () {
-                      //           Navigator.pop(context);
-                      //         },
-                      //         style: ElevatedButton.styleFrom(
-                      //           backgroundColor: Colors.grey[200],
-                      //           foregroundColor: Colors.black,
-                      //           padding: const EdgeInsets.symmetric(
-                      //             vertical: 16,
-                      //           ),
-                      //           shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(12),
-                      //           ),
-                      //         ),
-                      //         child: const Text('KEMBALI'),
-                      //       ),
-                      //     ),
-                      //     const SizedBox(width: 12),
-                      //     Expanded(
-                      //       child: ElevatedButton(
-                      //         onPressed: () {
-                      //           // Add to cart logic
-                      //           Navigator.pop(context);
-                      //         },
-                      //         style: ElevatedButton.styleFrom(
-                      //           backgroundColor: Colors.blue,
-                      //           foregroundColor: Colors.white,
-                      //           padding: const EdgeInsets.symmetric(
-                      //             vertical: 16,
-                      //           ),
-                      //           shape: RoundedRectangleBorder(
-                      //             borderRadius: BorderRadius.circular(12),
-                      //           ),
-                      //         ),
-                      //         child: const Text('TAMBAH KE KERANJANG'),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildInfoTile(String title, String value, IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 20, color: Colors.blue),
-          const SizedBox(width: 12),
-
-          // 🔥 Perbaikan utama: Expanded agar teks tidak overflow
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  value,
-                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
+                    color: Colors.black87,
                   ),
-                  maxLines: 3, // tetap 2 baris
-                  overflow: TextOverflow.ellipsis, // auto "..."
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   softWrap: true,
                 ),
               ],

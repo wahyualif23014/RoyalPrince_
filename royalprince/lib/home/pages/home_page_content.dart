@@ -158,8 +158,8 @@ class _HomePageContentState extends State<HomePageContent> {
         ),
         children: [
           CustomHeaderWidget(
-            title: 'Welcome to My Portfolio',
-            subtitle: 'Innovative solutions through creative development',
+            title: 'Welcome to My Health',
+            subtitle: 'wealth is my health',
             onSeeMorePressed: () {
               setState(() {
                 _isProfileVisible = !_isProfileVisible;
@@ -177,14 +177,14 @@ class _HomePageContentState extends State<HomePageContent> {
           const SizedBox(height: _sectionSpacing),
 
           _buildSectionContainer(
-            title: 'Featured Projects',
+            title: 'Healthy Lifestyle ',
             child: FanCarouselWidget(images: sampleImages),
           ),
 
           const SizedBox(height: _sectionSpacing),
 
           _buildSectionContainer(
-            title: 'Our Portfolio',
+            title: 'Mental fitness',
             child: SizedBox(
               height: 260,
               child: PortfolioSwiper(portfolioItems: dummyPortfolioItems),
@@ -194,7 +194,7 @@ class _HomePageContentState extends State<HomePageContent> {
           const SizedBox(height: _sectionSpacing),
 
           _buildSectionContainer(
-            title: 'Professional Experience',
+            title: 'Stages for Healthy Life',
             child: ProfessionalTimeline(data: dummyExperiences),
           ),
 
